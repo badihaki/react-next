@@ -1,4 +1,5 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { PartyContext } from "./Context/PartyContext";
 
 function CharacterForm(){
     // form
@@ -9,6 +10,9 @@ function CharacterForm(){
 
     // job classes
     const [jobClasses, setJobClasses] = useState<string[]>([]);
+
+    // party context
+    const {party, setParty} = useContext(PartyContext);
 
     // use effect
     useEffect(()=>{
@@ -26,7 +30,18 @@ function CharacterForm(){
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
     
-    function changeForm(e:ChangeEvent<HTMLInputElement>){
+        const optionValues = ()=>{
+            if(jobClasses.length > 0){
+                // console.log(jobClasses);
+                return jobClasses.map(jobClass => <option value={jobClass} key={jobClass}>{jobClass}</option>);
+            }
+            else {
+                return(
+                <option value={"default"}>Obtaining classes, please wait</option>
+            )}
+        }
+    
+    function onCharFormChange(e:ChangeEvent<HTMLInputElement>){
         e.preventDefault();
         const key = e.target.name;
         const value:string = e.target.value;
@@ -38,27 +53,23 @@ function CharacterForm(){
         setForm(formUpdate);
     }
 
-
-    const optionValues = ()=>{
-        if(jobClasses.length > 0){
-            // console.log(jobClasses);
-            return jobClasses.map(jobClass => <option value={jobClass} key={jobClass}>{jobClass}</option>);
-        }
-        else {
-            return(
-            <option value={"default"}>Obtaining classes, please wait</option>
-        )}
+    function submitCharacter(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        console.log(form);
+        if(party.length >= 4) return;
+        const newParty = [...party, form];
+        setParty(newParty);
     }
 
     return(
-        <form>
-            Character Name: <input type="text" name="name" value={form.name} onChange={changeForm} />
+        <form onSubmit={submitCharacter}>
+            Character Name: <input type="text" name="name" value={form.name} onChange={onCharFormChange} />
             <br />
-            Class: <select name="class" onChange={changeForm}>
+            Class: <select name="class" onChange={onCharFormChange}>
                 {optionValues()}
             </select>
             <br />
-            <button type="submit">Create Character</button>
+            <button type="submit" >Create Character</button>
         </form>
     )
 }
