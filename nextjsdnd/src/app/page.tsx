@@ -1,7 +1,19 @@
-import Image from "next/image";
-import Link from "next/link";
+import NavBarProps from "@/interfaces/INavBarProps";
+import NavigationBar from "@/components/NavBar";
 
 export default function Home() {
+
+  const navigation: NavBarProps[] = [
+    {
+      title: "Party List",
+      url: "/party"
+    },
+    {
+      title: "New Character",
+      url: "/newcharacter"
+    }
+  ]
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <header>
@@ -16,21 +28,7 @@ export default function Home() {
         </div>
       </section>
       <nav>
-        <ul>
-          <li>
-            Character Form
-          </li>
-          <li>
-            <Link href={"/party"}>
-              Party List
-            </Link>
-          </li>
-          <li>
-            <Link href={"/newcharacter"}>
-              Create a new Character
-            </Link>
-          </li>
-        </ul>
+        <NavigationBar links={navigation} />
       </nav>
     </main>
   );
