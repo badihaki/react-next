@@ -17,6 +17,7 @@ export default function CharacterForm(){
         <div>
             <header>
                 <h2>Create a new character</h2>
+                <br />
                 <NavigationBar links={navigation} />
             </header>
         </div>

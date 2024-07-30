@@ -11,6 +11,10 @@ export default function Home() {
     {
       title: "New Character",
       url: "/newcharacter"
+    },
+    {
+      title: "User",
+      url: "/auth"
     }
   ]
 
@@ -27,6 +31,7 @@ export default function Home() {
           Use this app to build your DnD parties for campaigns and adventures. You can add characters to your party with the character form, manage the party as a whole in the party list, and manage individal members on their character page.
         </div>
       </section>
+      <br />
       <nav>
         <NavigationBar links={navigation} />
       </nav>
