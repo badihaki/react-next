@@ -1,7 +1,16 @@
-import { useState } from "react"
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default function SignUp(){
+export default function LogIn(){
+    // error state
+    const [err, setErr] = useState<string>("");
+    // client-side router
+    const router = useRouter();
+    
+    // state for showing password
     const [isPassword, setIsPassword] = useState<boolean>(true);
+    // state for form
     const [form, setForm] = useState<{email:string, password:string}>({
         email:"",
         password:""
@@ -16,9 +25,29 @@ export default function SignUp(){
         setForm(formCopy);
     }
 
-    const handleSubmit = (e:SubmitEvent)=>{
+    const handleSubmit = async (e:SubmitEvent)=>{
         e.preventDefault();
-        clearForm();
+
+        const res = await signIn("credentials", {
+            email: form.email,
+            password: form.password
+        });
+
+        if(res?.error){
+            showError(res.error as string)
+        }
+        if(res?.ok){
+            clearForm();
+            return router.push("/");
+        }
+    }
+    
+    function showError(errMsg:string){
+        //
+        setErr(errMsg);
+        setTimeout(() => {
+            setErr("");
+        }, 5500);
     }
 
     function clearForm(){
@@ -30,9 +59,9 @@ export default function SignUp(){
         }
 
     return(
-        <div id="signup">
-            <h4>Sign Up Below</h4>
-            <form>
+        <div id="login">
+            <h4>Log In Below</h4>
+            <form onSubmit={handleSubmit}>
                 Email:
                 <input type="email" name="email" value={form.email} onChange={handleChange} className="form-input px-4 py-3 rounded-full"></input>
                 <br />
@@ -45,6 +74,8 @@ export default function SignUp(){
                 }}>{isPassword?"Hide Password":"Show Password"}</button>
                 <br />
                 <button type="submit" className="bg-transparent hover:bg-gray-500 text-gray-300 font-semibold hover:text-white py-2 px-4 border border-gray-300 hover:border-transparent rounded">Submit</button>
+                <br />
+                {err}
             </form>
         </div>
     )

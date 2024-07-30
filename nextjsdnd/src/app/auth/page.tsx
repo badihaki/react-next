@@ -1,4 +1,5 @@
 "use client"
+import LogIn from "@/components/LogIn";
 import NavigationBar from "@/components/NavBar";
 import SignUp from "@/components/SignUp";
 import NavBarProps from "@/interfaces/INavBarProps";
@@ -20,9 +21,13 @@ export default function Authorization(){
     ];
     return(
         <div>
-            <h3>Log in or Sign Up Below</h3>
+            <h2>Log in or Sign Up Below</h2>
             <br />
             <SignUp />
+            <br />
+            <h3>or...</h3>
+            <br />
+            <LogIn />
             <br />
             <NavigationBar links={navigation} />
         </div>

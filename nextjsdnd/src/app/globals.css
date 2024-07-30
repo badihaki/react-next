@@ -31,3 +31,13 @@ body {
     text-wrap: balance;
   }
 }
+
+form{
+  font-weight: 500;
+}
+
+input{
+  color: black;
+  font-weight: 600;
+  margin-top: 1rem;
+}
