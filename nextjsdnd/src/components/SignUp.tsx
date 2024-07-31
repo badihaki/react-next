@@ -8,10 +8,10 @@ export default function SignUp(){
     });
 
     function handleChange(e:{target:{value:string, name:string}}){
-        const target:string = e.target.name;
+        const key:string = e.target.name;
         const value = e.target.value;
         const formCopy = {...form}
-        formCopy[target] = value;
+        formCopy[key as keyof typeof formCopy] = value;
         console.log(formCopy);
         setForm(formCopy);
     }

@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function LogIn(){
     // error state
@@ -16,17 +16,17 @@ export default function LogIn(){
         password:""
     });
 
-    function handleChange(e:{target:{value:string, name:string}}){
-        const target:string = e.target.name;
+    function handleChange(e:{target:{value:string, name:string}}):void{
+        const key:string = e.target.name;
         const value = e.target.value;
-        const formCopy = {...form}
-        formCopy[target] = value;
+        const formCopy:{email:string, password:string} = {...form}
+        formCopy[key as keyof typeof formCopy] = value;
         console.log(formCopy);
         setForm(formCopy);
     }
 
-    const handleSubmit = async (e:SubmitEvent)=>{
-        e.preventDefault();
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
+        e.preventDefault;
 
         const res = await signIn("credentials", {
             email: form.email,
