@@ -14,9 +14,10 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers:{
-        setUser: (state, action:PayloadAction<UserState>)=>{        
+        setUser: (state:RootState, action:PayloadAction<UserState>)=>{        
             state.email = action.payload.email,
             state.password = action.payload.password
+            // return state;
         }
     }
 })

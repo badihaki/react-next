@@ -1,7 +1,10 @@
 import { configureStore, GetState } from "@reduxjs/toolkit";
+// import userSlice from "./features/user/userSlice";
 
 export const makeStore = () => configureStore({
-    reducer: {}
+    reducer: {
+        // userSlice
+    }
 });
 
 export type AppStore = ReturnType<typeof makeStore>;
