@@ -1,9 +1,9 @@
 import { configureStore, GetState } from "@reduxjs/toolkit";
-// import userSlice from "./features/user/userSlice";
+import userSlice from "./features/user/userSlice";
 
 export const makeStore = () => configureStore({
     reducer: {
-        // userSlice
+        user:userSlice
     }
 });
 

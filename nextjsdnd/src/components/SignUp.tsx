@@ -1,4 +1,7 @@
-import { useState } from "react"
+"use client"
+import { useState, useRef, FormEvent } from "react"
+import { useRouter } from "next/navigation";
+import { register } from "@/actions/register";
 
 export default function SignUp(){
     const [isPassword, setIsPassword] = useState<boolean>(true);
@@ -6,19 +9,37 @@ export default function SignUp(){
         email:"",
         password:""
     });
+    const [error, setError] = useState<string>("");
+    const router = useRouter();
 
     function handleChange(e:{target:{value:string, name:string}}){
         const key:string = e.target.name;
         const value = e.target.value;
         const formCopy = {...form}
         formCopy[key as keyof typeof formCopy] = value;
-        console.log(formCopy);
+        // console.log(formCopy);
         setForm(formCopy);
     }
 
-    const handleSubmit = (e:SubmitEvent)=>{
+    const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
+        
+        const registrationResponse = await register({
+            email: form.email,
+            password: form.password
+        })
+
         clearForm();
+        
+        if(registrationResponse?.error){
+            setError(registrationResponse.error);
+            return;
+        }
+        else{
+            return router.push("/");
+        }
+        
+        console.log(form);
     }
 
     function clearForm(){
@@ -32,7 +53,7 @@ export default function SignUp(){
     return(
         <div id="signup">
             <h4>Sign Up Below</h4>
-            <form>
+            <form onSubmit={handleSubmit}>
                 Email:
                 <input type="email" name="email" value={form.email} onChange={handleChange} className="form-input px-4 py-3 rounded-full"></input>
                 <br />

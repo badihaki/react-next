@@ -4,7 +4,6 @@ import type { NextAuthOptions } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { emit } from "process";
-import Email from "next-auth/providers/email";
 
 export const authOptions:NextAuthOptions = {
     providers:[

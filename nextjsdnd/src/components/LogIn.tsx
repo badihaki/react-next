@@ -26,18 +26,20 @@ export default function LogIn(){
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
-        e.preventDefault;
+        e.preventDefault();
 
         const res = await signIn("credentials", {
             email: form.email,
-            password: form.password
+            password: form.password,
+            redirect: false
         });
+        
+        clearForm();
 
         if(res?.error){
             showError(res.error as string)
         }
-        if(res?.ok){
-            clearForm();
+        else if(res?.ok){
             return router.push("/");
         }
     }
