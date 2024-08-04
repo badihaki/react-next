@@ -1,5 +1,5 @@
 "use server"
-import { connectDB } from "@/mongo/mongodb"
+import { connectDB } from "@/lib/mongo/mongodb"
 import User from "@/models/User"
 import bcrypt from "bcryptjs"
 import { use } from "react"

@@ -3,7 +3,6 @@ import User from "@/models/User";
 import type { NextAuthOptions } from "next-auth";
 import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { emit } from "process";
 
 export const authOptions:NextAuthOptions = {
     providers:[
