@@ -1,6 +1,6 @@
 "use server"
 import { connectDB } from "@/lib/mongo/mongodb"
-import User from "@/models/User"
+import User from "../lib/models/User"
 import bcrypt from "bcryptjs"
 import { use } from "react"
 
