@@ -1,9 +1,11 @@
 import { configureStore, GetState } from "@reduxjs/toolkit";
 import userSlice from "./features/user/userSlice";
+import { partySlice } from "./features/party/partySlice";
 
 export const makeStore = () => configureStore({
     reducer: {
-        user:userSlice
+        user:userSlice,
+        party:partySlice
     }
 });
 

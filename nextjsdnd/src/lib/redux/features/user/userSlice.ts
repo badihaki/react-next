@@ -1,11 +1,9 @@
+import IUser from "@/interfaces/IUser";
 import { RootState } from "@/lib/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
-    email:"",
-    password:""
-}
-const initialState:UserState = {
+
+const initialState:IUser = {
     email:"",
     password:""
 }
@@ -14,7 +12,7 @@ export const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers:{
-            setUser: (state:UserState, action:PayloadAction<UserState>)=>{
+            setUser: (state:IUser, action:PayloadAction<IUser>)=>{
             state.email = action.payload.email,
             state.password = action.payload.password
             return state;
