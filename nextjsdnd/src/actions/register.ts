@@ -5,7 +5,10 @@ import bcrypt from "bcryptjs"
 import { use } from "react"
 
 export const register = async(values:any) =>{
-    const {email, password} = values;
+    const {email, password} = JSON.parse(values);
+    console.log(email);
+    console.log(password);
+
 
     try{
         await connectDB();
@@ -21,8 +24,10 @@ export const register = async(values:any) =>{
             password: hashedPassword
         });
         const savedUser = await user.save();
+        return JSON.stringify(savedUser);
     }
     catch(error){
         console.log(error);
+        return JSON.stringify(error);
     }
 }

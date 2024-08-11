@@ -2,6 +2,9 @@
 import { useState, useRef, FormEvent } from "react"
 import { useRouter } from "next/navigation";
 import { register } from "@/actions/register";
+import { useAppDispatch } from "@/lib/redux/hooks";
+import { setUser } from "@/lib/redux/features/user/userSlice";
+import IUser from "@/interfaces/IUser";
 
 export default function SignUp(){
     const [isPassword, setIsPassword] = useState<boolean>(true);
@@ -11,6 +14,8 @@ export default function SignUp(){
     });
     const [error, setError] = useState<string>("");
     const router = useRouter();
+
+    const dispatch = useAppDispatch();
 
     function handleChange(e:{target:{value:string, name:string}}){
         const key:string = e.target.name;
@@ -24,18 +29,24 @@ export default function SignUp(){
     const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         
-        const registrationResponse = await register({
+        const registrationResponse = await register(JSON.stringify({
             email: form.email,
             password: form.password
-        })
+        })) as string;
 
+        const registrationResult = JSON.parse(registrationResponse);
+        
         clearForm();
         
-        if(registrationResponse?.error){
-            setError(registrationResponse.error);
+        if(registrationResult?.error){
+            setError(registrationResult.error);
             return;
         }
         else{
+            console.log(registrationResult);
+            console.log(registrationResult.email);
+            const user:IUser = registrationResult;
+            dispatch(setUser(user));
             return router.push("/");
         }
         

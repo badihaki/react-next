@@ -1,3 +1,5 @@
+'use client';
+
 import NavBarProps from "@/interfaces/INavBarProps";
 import NavigationBar from "@/components/NavBar";
 
