@@ -49,7 +49,7 @@ function CharacterForm(){
         // console.log(`the key we are changing is '${key}' and the value is '${value}'`);
         
         const formUpdate = {...form};
-        formUpdate[key] = value;
+        formUpdate[key as keyof typeof formUpdate] = value;
         setForm(formUpdate);
     }
 
