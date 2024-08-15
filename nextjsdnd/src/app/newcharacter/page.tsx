@@ -1,23 +1,10 @@
 'use client';
 
-import CharacterForm from "@/components/CharacterForm";
-import NavigationBar from "@/components/NavBar";
-import NavBarProps from "@/interfaces/INavBarProps"
+import CharacterForm from "@/lib/components/CharacterForm";
 import { useAppSelector } from "@/lib/redux/hooks";
 import { RootState } from "@/lib/redux/store";
 
-export default function NewCharacterForm(){
-    const navigation: NavBarProps[] = [
-        {
-            title:"Front Page",
-            url:"/"
-        },
-        {
-            title:"Party List",
-            url:"/party"
-        }
-    ];
-    
+export default function NewCharacterForm(){    
     const user = useAppSelector( (state:RootState) => state.user );
 
     return(
@@ -37,8 +24,6 @@ export default function NewCharacterForm(){
                         <br />
                     </>
                      }
-                    <br />
-                <NavigationBar links={navigation} />
             </header>
         </div>
     )

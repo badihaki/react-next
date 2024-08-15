@@ -1,25 +1,6 @@
 'use client';
 
-import NavBarProps from "@/interfaces/INavBarProps";
-import NavigationBar from "@/components/NavBar";
-
 export default function Home() {
-
-  const navigation: NavBarProps[] = [
-    {
-      title: "Party List",
-      url: "/party"
-    },
-    {
-      title: "New Character",
-      url: "/newcharacter"
-    },
-    {
-      title: "User",
-      url: "/auth"
-    }
-  ]
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <header>
@@ -34,9 +15,6 @@ export default function Home() {
         </div>
       </section>
       <br />
-      <nav>
-        <NavigationBar links={navigation} />
-      </nav>
     </main>
   );
 }

@@ -1,5 +1,5 @@
-import ICharacter from "@/interfaces/ICharacter";
-import IParty from "@/interfaces/IParty";
+import ICharacter from "@/lib/interfaces/ICharacter";
+import IParty from "@/lib/interfaces/IParty";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "@/lib/redux/store";
 

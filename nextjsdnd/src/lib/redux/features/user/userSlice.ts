@@ -1,4 +1,4 @@
-import IUser from "@/interfaces/IUser";
+import IUser from "@/lib/interfaces/IUser";
 import { RootState } from "@/lib/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 

@@ -1,10 +1,10 @@
 "use client"
 import { useState, useRef, FormEvent } from "react"
 import { useRouter } from "next/navigation";
-import { register } from "@/actions/register";
+import { register } from "@/lib/actions/register";
 import { useAppDispatch } from "@/lib/redux/hooks";
 import { setUser } from "@/lib/redux/features/user/userSlice";
-import IUser from "@/interfaces/IUser";
+import IUser from "@/lib/interfaces/IUser";
 
 export default function SignUp(){
     const [isPassword, setIsPassword] = useState<boolean>(true);
