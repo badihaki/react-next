@@ -37,9 +37,11 @@ export default function LogIn(){
         clearForm();
 
         if(res?.error){
+            console.log("error loggin in")
             showError(res.error as string)
         }
         else if(res?.ok){
+            console.log("login ok")
             return router.push("/");
         }
     }

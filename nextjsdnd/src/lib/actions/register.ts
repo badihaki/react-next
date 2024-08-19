@@ -2,7 +2,6 @@
 import { connectDB } from "@/lib/mongo/mongodb"
 import User from "../models/User"
 import bcrypt from "bcryptjs"
-import { use } from "react"
 
 export const register = async(values:any) =>{
     const {email, password} = JSON.parse(values);
