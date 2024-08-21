@@ -1,6 +1,9 @@
+'use client'
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { login } from "../actions/login";
+import { UserDocument } from "../models/User";
 
 export default function LogIn(){
     // error state
@@ -21,29 +24,36 @@ export default function LogIn(){
         const value = e.target.value;
         const formCopy:{email:string, password:string} = {...form}
         formCopy[key as keyof typeof formCopy] = value;
-        console.log(formCopy);
+        // console.log(formCopy);
         setForm(formCopy);
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
         e.preventDefault();
 
-        const res = await signIn("credentials", {
+        // const res = await signIn("credentials", {
+        //     email: form.email,
+        //     password: form.password,
+        //     redirect: false
+        // });
+
+        const res = await login(JSON.stringify({
             email: form.email,
-            password: form.password,
-            redirect: false
-        });
+            password: form.password
+        }));
         
         clearForm();
 
-        if(res?.error){
+        if(JSON.parse(res).error){
             console.log("error loggin in")
-            showError(res.error as string)
+            showError(JSON.parse(res).error as string)
+            return;
         }
-        else if(res?.ok){
-            console.log("login ok")
-            return router.push("/");
-        }
+
+        const okResponse:UserDocument = JSON.parse(res);
+        console.log("login ok")
+        console.log(okResponse);
+        return router.push("/");
     }
     
     function showError(errMsg:string){
