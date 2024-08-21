@@ -4,12 +4,15 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { login } from "../actions/login";
 import { UserDocument } from "../models/User";
+import { useAppDispatch } from "../redux/hooks";
+import { setUser } from "../redux/features/user/userSlice";
 
 export default function LogIn(){
     // error state
     const [err, setErr] = useState<string>("");
     // client-side router
     const router = useRouter();
+    const dispatch = useAppDispatch();
     
     // state for showing password
     const [isPassword, setIsPassword] = useState<boolean>(true);
@@ -53,6 +56,7 @@ export default function LogIn(){
         const okResponse:UserDocument = JSON.parse(res);
         console.log("login ok")
         console.log(okResponse);
+        // dispatch(setUser(okResponse));
         return router.push("/");
     }
     
