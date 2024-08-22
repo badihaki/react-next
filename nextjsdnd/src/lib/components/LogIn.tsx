@@ -56,7 +56,7 @@ export default function LogIn(){
         const okResponse:UserDocument = JSON.parse(res);
         console.log("login ok")
         console.log(okResponse);
-        // dispatch(setUser(okResponse));
+        dispatch(setUser(okResponse));
         return router.push("/");
     }
     
