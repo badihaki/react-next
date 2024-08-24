@@ -17,7 +17,7 @@ export default function SignUp(){
 
     const dispatch = useAppDispatch();
 
-    function handleChange(e:{target:{value:string, name:string}}){
+    function handleFormChange(e:{target:{value:string, name:string}}){
         const key:string = e.target.name;
         const value = e.target.value;
         const formCopy = {...form}
@@ -66,10 +66,10 @@ export default function SignUp(){
             <h4>Sign Up Below</h4>
             <form onSubmit={handleSubmit}>
                 Email:
-                <input type="email" name="email" value={form.email} onChange={handleChange} className="form-input px-4 py-3 rounded-full"></input>
+                <input type="email" name="email" value={form.email} onChange={handleFormChange} className="form-input px-4 py-3 rounded-full"></input>
                 <br />
                 Passowrd: 
-                <input type={isPassword? "password":"text"} name="password" value={form.password} onChange={handleChange} className="form-input px-4 py-3 rounded-full"></input>
+                <input type={isPassword? "password":"text"} name="password" value={form.password} onChange={handleFormChange} className="form-input px-4 py-3 rounded-full"></input>
                 <br />
                 <button type="button" onClick={(e)=>{
                     e.preventDefault();

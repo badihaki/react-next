@@ -4,7 +4,8 @@ export default function CharacterForm(){
     const [jobClasses, setJobClasses] = useState<string[]>([]);
     const [form, setForm] = useState({
         "name":"",
-        "class":"Barbarian"
+        "class":"Barbarian",
+        "gender":"m"
     })
     
     useEffect(()=>{
@@ -27,7 +28,7 @@ export default function CharacterForm(){
         else return <option value={"Barbarian"}>Obtaining job classes, please wait</option>
     }
 
-    function handleFormChange(e:ChangeEvent<HTMLInputElement>){
+    function handleFormChange(e:{target:{name:string, value:string}}){
         const key = e.target.name;
         const val = e.target.value;
 
@@ -43,13 +44,18 @@ export default function CharacterForm(){
 
     return(
         <form onSubmit={handleFormSubmit}>
-            Character Name: <input type="text" name="name" value={form.name} onChange={handleFormChange} />
+            Character Name: <input className="text-stone-800 font-semibold font-serif" type="text" name="name" value={form.name} onChange={handleFormChange} />
             <br />
-            Character Class: <select name="class" onChange={handleFormChange}>
+            Character Class: <select name="class" className="bg-slate-500 p-1 text-stone-100 font-semibold font-serif mt-1" onChange={handleFormChange}>
                 {optionValues()}
             </select>
             <br />
-            <button type="submit">Submit</button>
+            Character Gender: <select name="gender" className='bg-slate-500 p-1 text-stone-100 font-semibold font-serif my-1' onChange={handleFormChange}>
+                <option value={"m"}>Male</option>
+                <option value={"f"}>Female</option>
+            </select>
+            <br />
+            <button type="submit" className="transition duration-300 ease-in-out bg-slate-500 hover:bg-slate-600 active:bg-slate-800 px-2 py-1 rounded-full border-stone-400 border-2 hover:border-opacity-30 font-serif font-semibold text-stone-200 hover:text-stone-50">Submit</button>
         </form>
     )
 }

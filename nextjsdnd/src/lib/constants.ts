@@ -3,7 +3,7 @@ const barbarianF = import("@/lib/images/bard-f.jpg")
 
 const CONSTANTS = {
     imagesURLs:{
-        barbarian:{
+        Barbarian:{
             m: barbarianM,
             f: barbarianF
         }
