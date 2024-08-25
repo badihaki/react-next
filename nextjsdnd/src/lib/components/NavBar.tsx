@@ -4,15 +4,17 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/hooks";
 import { RootState } from "@/lib/redux/store";
 import { removeUser } from "../redux/features/user/userSlice";
+import axios from "axios";
 
 export default function NavigationBar(){
     // console.log(links.links);
     const dispatch = useAppDispatch();
     const user = useAppSelector((state:RootState)=>state.user);
 
-    const handleLogOut = ()=> {
+    const handleLogOut = async ()=> {
         console.log("logging out");
         try{
+            await axios.get("api/users/logout");
             dispatch(removeUser());
         }
         catch(err:any){
