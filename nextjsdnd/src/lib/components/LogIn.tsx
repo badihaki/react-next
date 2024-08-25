@@ -52,16 +52,18 @@ export default function LogIn(){
             // console.log(okResponse);
             // dispatch(setUser(okResponse));
             
-            // clearForm();
         try{
             const response = await axios.post("api/users/login", form);
             console.log(response);
+            console.log(response.data.user);
+            dispatch(setUser(response.data.user));
             return router.push("/");
         }
         catch(err:any){
             console.log(err);
             // setErr(err.error);
         }
+        clearForm();
     }
     
     function showError(errMsg:string){
