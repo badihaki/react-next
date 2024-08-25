@@ -6,6 +6,7 @@ import { login } from "../actions/login";
 import { UserDocument } from "../models/User";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/user/userSlice";
+import axios from "axios";
 
 export default function LogIn(){
     // error state
@@ -34,30 +35,33 @@ export default function LogIn(){
     const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
         e.preventDefault();
 
-        // const res = await signIn("credentials", {
+        // const res = await login(JSON.stringify({
         //     email: form.email,
-        //     password: form.password,
-        //     redirect: false
-        // });
-
-        const res = await login(JSON.stringify({
-            email: form.email,
-            password: form.password
-        }));
+        //     password: form.password
+        // }));
         
-        clearForm();
-
-        if(JSON.parse(res).error){
-            console.log("error loggin in")
-            showError(JSON.parse(res).error as string)
-            return;
+        
+        // if(JSON.parse(res).error){
+            //     console.log("error loggin in")
+            //     showError(JSON.parse(res).error as string)
+            //     return;
+            // }
+            
+            // const okResponse:UserDocument = JSON.parse(res);
+            // console.log("login ok")
+            // console.log(okResponse);
+            // dispatch(setUser(okResponse));
+            
+            // clearForm();
+        try{
+            const response = await axios.post("api/users/login", form);
+            console.log(response);
+            return router.push("/");
         }
-
-        const okResponse:UserDocument = JSON.parse(res);
-        console.log("login ok")
-        console.log(okResponse);
-        dispatch(setUser(okResponse));
-        return router.push("/");
+        catch(err:any){
+            console.log(err);
+            // setErr(err.error);
+        }
     }
     
     function showError(errMsg:string){
