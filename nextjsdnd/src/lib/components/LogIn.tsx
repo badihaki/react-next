@@ -60,7 +60,7 @@ export default function LogIn(){
             return router.push("/");
         }
         catch(err:any){
-            console.log(err);
+            showError(err.response.data.error);
             // setErr(err.error);
         }
         clearForm();
@@ -99,7 +99,9 @@ export default function LogIn(){
                 <br />
                 <button type="submit" className="bg-transparent hover:bg-gray-500 text-gray-300 font-semibold hover:text-white py-2 px-4 border border-gray-300 hover:border-transparent rounded">Submit</button>
                 <br />
-                {err}
+                <div className="text-red-700 font-semibold text-sm">
+                    {err}
+                </div>
             </form>
         </div>
     )

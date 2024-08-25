@@ -25,7 +25,7 @@ export async function POST(request:NextRequest) {
         const salt = await brypt.genSalt(10);
         const hashedPass = await brypt.hash(password, salt); // encrypt password
 
-        const newUser = new User({
+        const newUser = await new User({
             username,
             email,
             password:hashedPass,
@@ -34,7 +34,11 @@ export async function POST(request:NextRequest) {
         return NextResponse.json({
             message: "User created successfully",
             success: true,
-            user: newUser
+            user: {
+                username:newUser.username,
+                email:newUser.email,
+                _id:newUser._id,
+            }
         })
     }
     catch(err:any){

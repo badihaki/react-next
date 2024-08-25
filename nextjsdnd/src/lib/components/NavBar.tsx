@@ -12,7 +12,12 @@ export default function NavigationBar(){
 
     const handleLogOut = ()=> {
         console.log("logging out");
-        dispatch(removeUser());
+        try{
+            dispatch(removeUser());
+        }
+        catch(err:any){
+            console.log(err);
+        }
     }
 
     return(

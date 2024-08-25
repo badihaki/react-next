@@ -52,19 +52,18 @@ export default function SignUp(){
         //     return router.push("/");
         // }
 
-        // clearForm();
         try{
-            // console.log(form);
             const response = await axios.post("api/users/signup", form);
-            // dispatch(setUser()); // dispatch the response to the store
-            // console.log(response);
-            router.push("/");
-
+            // console.log(response.data.user);
+            dispatch(setUser(response.data.user)); // dispatch the response to the store
         }
         catch(err:any){
             // console.log(`Signup failed with error:`);
-            // console.log(err.message);
-            showError(err.message);
+            showError(err.response.data.error);
+        }
+        finally{
+            clearForm();
+            router.push("/");
         }
     }
     
