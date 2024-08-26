@@ -1,9 +1,6 @@
 'use client'
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { login } from "../actions/login";
-import { UserDocument } from "../models/User";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/user/userSlice";
 import axios from "axios";
@@ -34,23 +31,6 @@ export default function LogIn(){
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
         e.preventDefault();
-
-        // const res = await login(JSON.stringify({
-        //     email: form.email,
-        //     password: form.password
-        // }));
-        
-        
-        // if(JSON.parse(res).error){
-            //     console.log("error loggin in")
-            //     showError(JSON.parse(res).error as string)
-            //     return;
-            // }
-            
-            // const okResponse:UserDocument = JSON.parse(res);
-            // console.log("login ok")
-            // console.log(okResponse);
-            // dispatch(setUser(okResponse));
             
         try{
             const response = await axios.post("api/users/login", form);
@@ -61,13 +41,11 @@ export default function LogIn(){
         }
         catch(err:any){
             showError(err.response.data.error);
-            // setErr(err.error);
         }
         clearForm();
     }
     
     function showError(errMsg:string){
-        //
         setErr(errMsg);
         setTimeout(() => {
             setErr("");
