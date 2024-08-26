@@ -1,9 +1,28 @@
+import { getDataFromToken } from "@/lib/actions/getCookies";
+import User from "@/lib/models/User";
 import { connectDB } from "@/lib/mongo/mongodb";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 connectDB();
 
 export async function GET(request:NextRequest) {
-    try{}
-    catch(err:any){}
+    try{
+        const userId = await getDataFromToken(request);
+        const user = await User.findOne({_id:userId}).select("-password");
+
+        return NextResponse.json({
+            message:"User Found",
+            userData: user,
+        });
+    }
+    catch(err:any){
+        return NextResponse.json(
+            {
+                error:err.message
+            },
+            {
+                status: 400,
+            }
+        )
+    }
 }

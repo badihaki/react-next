@@ -1,10 +1,16 @@
 import mongoose, { Schema, model } from "mongoose";
+import ICharacter from "../interfaces/ICharacter";
+import IParty from "../interfaces/IParty";
 
 export interface UserDocument{
     _id:string,
     email:string,
-    username:string,
     password:string,
+    username:string,
+    characters:{
+        activeParty:IParty,
+        reserveCharacters:[ICharacter]
+    },
     isVerified:boolean,
     isAdmin: boolean,
     forgotPassToken:string,
@@ -20,10 +26,6 @@ const UserSchema = new Schema<UserDocument>({
         type:String,
         unique:true,
         required:[ true, "Please provide a username" ],
-        // match:[
-        //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        //     "Email is invalid",
-        // ]
     },
     password:{
         type:String,
@@ -32,6 +34,16 @@ const UserSchema = new Schema<UserDocument>({
     username:{
         type:String,
         required:[true, "What's your identifying handle?"]
+    },
+    characters:{
+        activeParty:{
+            type:[],
+            of:{name:String, class:String}
+        },
+        reserveCharacters:{
+            type:[],
+            of:{name:String, class:String}
+        }
     },
     isVerified:{
         type:Boolean,
