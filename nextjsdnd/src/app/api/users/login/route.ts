@@ -1,6 +1,5 @@
 import User from "@/lib/models/User";
 import { connectDB } from "@/lib/mongo/mongodb";
-import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";

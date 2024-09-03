@@ -2,10 +2,18 @@
 
 import { useAppSelector } from '@/lib/redux/hooks'
 import { RootState } from '@/lib/redux/store';
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react'
 
 function ProfilePage() {
     const user = useAppSelector((state:RootState)=>state.user);
+    const router = useRouter();
+
+    useEffect(()=>{
+        if(user.username === ""){
+            router.push("/auth")
+        }
+    })
 
   return (
     <div className='flex flex-col justify-center items-center self-center h-full w-full'>
