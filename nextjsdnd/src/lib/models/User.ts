@@ -1,6 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
-import ICharacter from "../interfaces/ICharacter";
-import IParty from "../interfaces/IParty";
+import mongoose, { ObjectId, Schema, model } from "mongoose";
 
 export interface UserDocument{
     _id:string,
@@ -8,8 +6,8 @@ export interface UserDocument{
     password:string,
     username:string,
     characters:{
-        activeParty:IParty,
-        reserveCharacters:[ICharacter]
+        activeParty:ObjectId,
+        reserveCharacters:[ObjectId]
     },
     isVerified:boolean,
     isAdmin: boolean,
@@ -37,12 +35,11 @@ const UserSchema = new Schema<UserDocument>({
     },
     characters:{
         activeParty:{
-            type:[],
-            of:{name:String, class:String}
+            type:Schema.Types.ObjectId
         },
         reserveCharacters:{
             type:[],
-            of:{name:String, class:String}
+            of:{character:Schema.Types.ObjectId}
         }
     },
     isVerified:{
