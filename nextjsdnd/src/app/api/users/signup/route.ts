@@ -39,7 +39,7 @@ export async function POST(request:NextRequest) {
                 email:newUser.email,
                 _id:newUser._id,
             }
-        })
+        }, {status:200})
     }
     catch(err:any){
         return NextResponse.json({error:err.message}, {status:500});
