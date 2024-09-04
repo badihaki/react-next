@@ -1,4 +1,7 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import axios from "axios";
+import { useState, useEffect, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { addReserveCharacter } from "../redux/features/characters/charactersSlice";
 
 export default function CharacterForm(){
     const [jobClasses, setJobClasses] = useState<string[]>([]);
@@ -6,6 +9,9 @@ export default function CharacterForm(){
         "name":"",
         "class":"Barbarian",
     })
+    const [ message, setMessage ] = useState<string>("");
+    const user = useAppSelector(state=>state.user);
+    const dispatch = useAppDispatch();
     
     useEffect(()=>{
         try{
@@ -36,12 +42,30 @@ export default function CharacterForm(){
         setForm(formUpdate);
     }
 
-    function handleFormSubmit(e:FormEvent<HTMLFormElement>){
+    async function handleFormSubmit(e:FormEvent<HTMLFormElement>){
         e.preventDefault();
-
-        console.log(form);
+        if(form.name === ""){
+            showMessage("You need to enter a character name, at least");
+            return;
+        }
+        try{
+            const response = await axios.post("/api/characters/new", {
+                name:form.name,
+                charClass: form.class,
+                user_id: user._id
+            });
+            
+            dispatch(addReserveCharacter(response.data.character));
+        }
+        catch(err:any){
+            console.log(err.message);
+            showMessage(err.message);
+        }
+        finally{
+            clearForm();
+        }
         
-        clearForm();
+        
     }
 
     function clearForm(){
@@ -49,6 +73,13 @@ export default function CharacterForm(){
             "name":"",
             "class":"Barbarian",
         })
+    }
+
+    async function showMessage(msg:string){
+        setMessage(message);
+        setTimeout(() => {
+            setMessage("")
+        }, 5000);
     }
 
     return(
@@ -60,6 +91,10 @@ export default function CharacterForm(){
             </select>
             <br />
             <button type="submit" className="transition duration-300 ease-in-out bg-slate-500 hover:bg-slate-600 active:bg-slate-800 px-2 py-1 rounded-full border-stone-400 border-2 hover:border-opacity-30 font-serif font-semibold text-stone-200 hover:text-stone-50">Submit</button>
+            <br />
+            <div className={`${message !== ""? "bg-slate-100 text-sm text-red-700 w-fit":""}`} >
+                {message}
+            </div>
         </form>
     )
 }

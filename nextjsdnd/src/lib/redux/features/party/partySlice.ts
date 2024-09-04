@@ -20,16 +20,11 @@ export const partySlice = createSlice({
             state.characters.splice(action.payload, 1);
             return state;
         },
-        addReserveCharacter: (state:IParty, action:PayloadAction<ICharacter>)=>{
-            state.reserve.push(action.payload);
-        },
-        removeReserveCharacter: (state:IParty, action:PayloadAction<number>)=>{
-            state.reserve.splice(action.payload, 1);
-        }
+
     }
 })
 
-export const { addCharacterToParty, removeCharacterFromParty, addReserveCharacter, removeReserveCharacter } = partySlice.actions;
+export const { addCharacterToParty, removeCharacterFromParty } = partySlice.actions;
 
 export const selectParty = (state:RootState) => state.party;
 
