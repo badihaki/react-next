@@ -1,6 +1,7 @@
+import ICharacter from '@/lib/interfaces/ICharacter'
 import React from 'react'
 
-function CharacterList() {
+function CharacterList(props:{characters:ICharacter[]}) {
   return (
     <div>
       Character List

@@ -16,16 +16,16 @@ export async function POST(request:NextRequest) {
             level:1,
             notes:"",
             user_id
-        }).save();
+        })
 
         const user = await User.findById(user_id);
-        const characters = user.characters.reserveCharacters;
+        const characters = user.characters;
 
         await User.updateOne({_id:user_id},{
-            characters: {
-                reserveCharacters: [...characters, newChar._id]
-            }
+            characters: [...characters, newChar._id]
         })
+
+        await newChar.save();
 
         return NextResponse.json({
             message: "Character created, have fun!",

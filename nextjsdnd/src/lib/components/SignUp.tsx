@@ -30,27 +30,6 @@ export default function SignUp(){
 
     const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        
-        // const registrationResponse = await register(JSON.stringify({
-        //     email: form.email,
-        //     password: form.password
-        // })) as string;
-
-        // const registrationResult = JSON.parse(registrationResponse);
-        
-        // clearForm();
-        
-        // if(registrationResult?.error){
-        //     setError(registrationResult.error);
-        //     return;
-        // }
-        // else{
-        //     console.log(registrationResult);
-        //     console.log(registrationResult.email);
-        //     const user:IUser = registrationResult;
-        //     dispatch(setUser(user));
-        //     return router.push("/");
-        // }
 
         try{
             const response = await axios.post("api/users/signup", form);

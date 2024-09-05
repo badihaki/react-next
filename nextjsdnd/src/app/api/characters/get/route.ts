@@ -1,13 +1,18 @@
 import Character from "@/lib/models/Character";
+import User from "@/lib/models/User";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request:NextRequest) {
+export async function POST(request:NextRequest) {
     try{
-        // const requestBody = await request.json();
-        const characters = await Character.find().populate('user_id').exec();
+        const requestBody = await request.json();
+        const { _id } = requestBody;
 
-        // console.log(requestBody);
-        console.log(characters);
+        // const characters = await Character.find().populate('user_id').exec();
+        const user = await User.findById(_id).populate("characters").exec();
+
+        console.log(user.characters);
+
+        return NextResponse.json({message:"found characters:", success:true, characters:user.characters},{status:200});
     }
     catch(err:any){
         console.log(err.message);

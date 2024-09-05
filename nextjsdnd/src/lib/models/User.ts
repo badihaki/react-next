@@ -5,10 +5,8 @@ export interface UserDocument{
     email:string,
     password:string,
     username:string,
-    characters:{
-        activeParty:ObjectId,
-        reserveCharacters:[ObjectId]
-    },
+    characters:ObjectId[],
+    party:ObjectId
     isVerified:boolean,
     isAdmin: boolean,
     forgotPassToken:string,
@@ -34,15 +32,12 @@ const UserSchema = new Schema<UserDocument>({
         required:[true, "What's your identifying handle?"]
     },
     characters:{
-        activeParty:{
-            type:Schema.Types.ObjectId,
-            ref: 'Party'
-        },
-        reserveCharacters:{
-            type:[],
-            of:{character:Schema.Types.ObjectId},
-            ref: "Character"
-        }
+        type:[],
+        of:Schema.Types.ObjectId,
+        ref: "Character"
+    },
+    party: {
+        type: Schema.Types.ObjectId
     },
     isVerified:{
         type:Boolean,

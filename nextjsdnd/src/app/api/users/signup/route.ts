@@ -1,14 +1,8 @@
-// import { authOptions } from "@/lib/mongo/auth/auth";
-// import NextAuth from "next-auth";
-// const handler = NextAuth(authOptions);
-// export { handler as GET, handler as POST };
-
-// this is old stuff
-
 import { connectDB } from "@/lib/mongo/mongodb";
 import User from "@/lib/models/User";
 import { NextRequest, NextResponse } from "next/server"
 import brypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 connectDB();
 
@@ -31,7 +25,14 @@ export async function POST(request:NextRequest) {
             password:hashedPass,
         }).save();
 
-        return NextResponse.json({
+        const tokenData = {
+            id:newUser._id,
+            username:newUser.username,
+            email:newUser.email
+        }
+        const token = await jwt.sign(tokenData, process.env.AUTH_SECRET!, {expiresIn:"1d"});
+        
+        const response = NextResponse.json({
             message: "User created successfully",
             success: true,
             user: {
@@ -40,6 +41,12 @@ export async function POST(request:NextRequest) {
                 _id:newUser._id,
             }
         }, {status:200})
+
+        response.cookies.set("token", token, {
+            httpOnly:true
+        })
+
+        return response;
     }
     catch(err:any){
         return NextResponse.json({error:err.message}, {status:500});

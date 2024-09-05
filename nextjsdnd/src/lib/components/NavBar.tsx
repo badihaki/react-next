@@ -12,9 +12,14 @@ export default function NavigationBar(){
     const user = useAppSelector((state:RootState)=>state.user);
     
     const getUserDetails = async()=>{
-        const response:AxiosResponse = await axios.get('/api/users/me');
-        // console.log(response.data.userData);
-        dispatch(setUser(response.data.userData));
+        try{
+            const response:AxiosResponse = await axios.get('/api/users/me');
+            // console.log(response.data.userData);
+            dispatch(setUser(response.data.userData));
+        }
+        catch(err:any){
+            console.log(err);
+        }
     }
 
     useEffect(()=>{
