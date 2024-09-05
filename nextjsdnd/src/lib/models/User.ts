@@ -35,11 +35,13 @@ const UserSchema = new Schema<UserDocument>({
     },
     characters:{
         activeParty:{
-            type:Schema.Types.ObjectId
+            type:Schema.Types.ObjectId,
+            ref: 'Party'
         },
         reserveCharacters:{
             type:[],
-            of:{character:Schema.Types.ObjectId}
+            of:{character:Schema.Types.ObjectId},
+            ref: "Character"
         }
     },
     isVerified:{

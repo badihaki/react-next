@@ -1,4 +1,5 @@
 import Character from "@/lib/models/Character";
+import User from "@/lib/models/User";
 import { connectDB } from "@/lib/mongo/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -16,6 +17,15 @@ export async function POST(request:NextRequest) {
             notes:"",
             user_id
         }).save();
+
+        const user = await User.findById(user_id);
+        const characters = user.characters.reserveCharacters;
+
+        await User.updateOne({_id:user_id},{
+            characters: {
+                reserveCharacters: [...characters, newChar._id]
+            }
+        })
 
         return NextResponse.json({
             message: "Character created, have fun!",

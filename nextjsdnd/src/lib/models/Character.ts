@@ -23,7 +23,10 @@ const CharacterSchema = new Schema<CharacterDocument>({
     notes:{
         type:String
     },
-    user_id:Schema.Types.ObjectId
+    user_id:{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 },
 {
     timestamps:true

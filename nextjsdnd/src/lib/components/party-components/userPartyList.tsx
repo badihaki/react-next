@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CharacterList from './characterList'
 import CharacterInfoContainer from './characterInfoContainer'
 import PartyContainer from './partyContainer'
+import axios from 'axios'
+import { useAppSelector } from '@/lib/redux/hooks'
 
 function UserPartyList() {
+  const user = useAppSelector(state=>state.user);
+
+  async function getCharacters() {
+    try{
+      const response = await axios.get("api/characters/get",{data:{uid:user._id}}).then(r=>r.data);
+      console.log(response);
+    }
+    catch(err:any){
+      console.log(err.response.data)
+    }
+  }
+
+  useEffect(()=>{
+    getCharacters();
+  },[])
   return (
     <div>
       <div className="text-center bg-white text-black w-fit rounded-full p-4 font-semibold">

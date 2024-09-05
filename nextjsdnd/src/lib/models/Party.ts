@@ -12,7 +12,8 @@ const PartySchema = new Schema<PartyDocument>({
         of: Schema.Types.ObjectId
     },
     user_id:{
-        type:Schema.Types.ObjectId
+        type:Schema.Types.ObjectId,
+        ref:'User'
     }
 },
 {
