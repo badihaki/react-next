@@ -1,4 +1,5 @@
-import mongoose, { model, ObjectId, Schema } from "mongoose";
+import mongoose, { ObjectId, Schema } from "mongoose";
+import User from "./User";
 
 export interface CharacterDocument{
     _id:string,
@@ -9,7 +10,7 @@ export interface CharacterDocument{
     user_id:ObjectId
 }
 
-const CharacterSchema = new Schema<CharacterDocument>({
+const CharacterSchema = new mongoose.Schema<CharacterDocument>({
     name:{
         type:String,
         required: [true, "Character needs a name"]
@@ -25,12 +26,12 @@ const CharacterSchema = new Schema<CharacterDocument>({
     },
     user_id:{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: User
     }
 },
 {
     timestamps:true
 });
 
-const Character = mongoose.models?.Character || model<CharacterDocument>("Character", CharacterSchema);
+const Character = mongoose.models?.Character || mongoose.model<CharacterDocument>("Character", CharacterSchema);
 export default Character;

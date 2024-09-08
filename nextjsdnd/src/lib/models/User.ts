@@ -1,4 +1,5 @@
 import mongoose, { ObjectId, Schema, model } from "mongoose";
+import Character from "./Character";
 
 export interface UserDocument{
     _id:string,
@@ -17,7 +18,7 @@ export interface UserDocument{
     updatedAt: Date,
 }
 
-const UserSchema = new Schema<UserDocument>({
+const UserSchema = new mongoose.Schema<UserDocument>({
     email:{
         type:String,
         unique:true,
@@ -34,7 +35,8 @@ const UserSchema = new Schema<UserDocument>({
     characters:{
         type:[],
         of:Schema.Types.ObjectId,
-        ref: "Character"
+        ref: "Character",
+        refPath:"./Character"
     },
     party: {
         type: Schema.Types.ObjectId
@@ -57,5 +59,6 @@ const UserSchema = new Schema<UserDocument>({
 }
 );
 
-const User = mongoose.models?.User || model<UserDocument>("User", UserSchema);
+const User = mongoose.models?.User || mongoose.model<UserDocument>("User", UserSchema);
+// module.exports = mongoose.models?.user || model<UserDocument>("user", UserSchema);
 export default User;

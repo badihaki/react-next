@@ -10,7 +10,7 @@ function UserPartyList() {
   // const user = useAppSelector(state=>state.user);
   // const characters = useAppSelector(state=>state.characters);
   // const party = useAppSelector(state=>state.party);
-  const {user, characters, party} = useAppSelector(state=>state);
+  const {user, characters} = useAppSelector(state=>state);
   const dispatch = useAppDispatch()
 
   async function getCharacters() {
