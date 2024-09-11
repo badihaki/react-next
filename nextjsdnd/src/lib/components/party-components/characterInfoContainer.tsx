@@ -1,9 +1,14 @@
+import ICharacter from '@/lib/interfaces/ICharacter'
 import React from 'react'
 
-function CharacterInfoContainer() {
+function CharacterInfoContainer(props:{ character: ICharacter|null, }) {
   return (
     <div>
-      Character Info Container
+      { props.character !== null ?
+      props.character?.name +" Info Container" 
+      :
+      "Character Info Container"
+      }
     </div>
   )
 }
