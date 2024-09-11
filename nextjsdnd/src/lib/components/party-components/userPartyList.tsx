@@ -27,7 +27,7 @@ function UserPartyList() {
 
   useEffect(()=>{
     getCharacters();
-  },[])
+  }, [])
 
   return (
     <div>
