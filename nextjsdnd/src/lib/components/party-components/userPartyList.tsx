@@ -39,7 +39,7 @@ function UserPartyList() {
   return (
     <div>
       <div className="text-center bg-white text-black w-fit rounded-full p-4 font-semibold">
-      Manage your characters and party below
+      Manage your characters and party below. Click a character to view their information.
       </div>
       <br />
 
@@ -49,7 +49,7 @@ function UserPartyList() {
           </div>
 
           <div className="bg-slate-400 bg-opacity-40 row-span-12 text-right">
-              <CharacterInfoContainer character={activeCharacter} />
+              <CharacterInfoContainer character={activeCharacter} closeInfo={()=>setActiveCharacter(null)} />
           </div>
 
           <br />
