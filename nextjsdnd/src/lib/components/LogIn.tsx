@@ -1,11 +1,9 @@
 'use client'
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { login } from "../actions/login";
-import { UserDocument } from "../models/User";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/user/userSlice";
+import axios from "axios";
 
 export default function LogIn(){
     // error state
@@ -33,35 +31,21 @@ export default function LogIn(){
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>):Promise<void>=>{
         e.preventDefault();
-
-        // const res = await signIn("credentials", {
-        //     email: form.email,
-        //     password: form.password,
-        //     redirect: false
-        // });
-
-        const res = await login(JSON.stringify({
-            email: form.email,
-            password: form.password
-        }));
-        
-        clearForm();
-
-        if(JSON.parse(res).error){
-            console.log("error loggin in")
-            showError(JSON.parse(res).error as string)
-            return;
+            
+        try{
+            const response = await axios.post("api/users/login", form);
+            console.log(response);
+            console.log(response.data.user);
+            dispatch(setUser(response.data.user));
+            return router.push("/");
         }
-
-        const okResponse:UserDocument = JSON.parse(res);
-        console.log("login ok")
-        console.log(okResponse);
-        dispatch(setUser(okResponse));
-        return router.push("/");
+        catch(err:any){
+            showError(err.response.data.error);
+        }
+        clearForm();
     }
     
     function showError(errMsg:string){
-        //
         setErr(errMsg);
         setTimeout(() => {
             setErr("");
@@ -93,7 +77,9 @@ export default function LogIn(){
                 <br />
                 <button type="submit" className="bg-transparent hover:bg-gray-500 text-gray-300 font-semibold hover:text-white py-2 px-4 border border-gray-300 hover:border-transparent rounded">Submit</button>
                 <br />
-                {err}
+                <div className="text-red-700 font-semibold text-sm">
+                    {err}
+                </div>
             </form>
         </div>
     )

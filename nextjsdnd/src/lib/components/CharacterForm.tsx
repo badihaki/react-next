@@ -1,12 +1,17 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import axios from "axios";
+import { useState, useEffect, FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { addReserveCharacter } from "../redux/features/characters/charactersSlice";
 
 export default function CharacterForm(){
     const [jobClasses, setJobClasses] = useState<string[]>([]);
     const [form, setForm] = useState({
         "name":"",
         "class":"Barbarian",
-        "gender":"m"
     })
+    const [ message, setMessage ] = useState<string>("");
+    const user = useAppSelector(state=>state.user);
+    const dispatch = useAppDispatch();
     
     useEffect(()=>{
         try{
@@ -37,25 +42,59 @@ export default function CharacterForm(){
         setForm(formUpdate);
     }
 
-    function handleFormSubmit(e:FormEvent<HTMLFormElement>){
+    async function handleFormSubmit(e:FormEvent<HTMLFormElement>){
         e.preventDefault();
-        console.log(form);
+        if(form.name === ""){
+            showMessage("You need to enter a character name, at least");
+            return;
+        }
+        try{
+            const response = await axios.post("/api/characters/new", {
+                name:form.name,
+                charClass: form.class,
+                user_id: user._id
+            });
+            
+            dispatch(addReserveCharacter(response.data.character));
+        }
+        catch(err:any){
+            console.log(err.message);
+            showMessage(err.message);
+        }
+        finally{
+            clearForm();
+        }
+        
+        
+    }
+
+    function clearForm(){
+        setForm({
+            "name":"",
+            "class":"Barbarian",
+        })
+    }
+
+    async function showMessage(msg:string){
+        setMessage(message);
+        setTimeout(() => {
+            setMessage("")
+        }, 5000);
     }
 
     return(
         <form onSubmit={handleFormSubmit}>
             Character Name: <input className="text-stone-800 font-semibold font-serif" type="text" name="name" value={form.name} onChange={handleFormChange} />
             <br />
-            Character Class: <select name="class" className="bg-slate-500 p-1 text-stone-100 font-semibold font-serif mt-1" onChange={handleFormChange}>
+            Character Class: <select name="class" value={form.class} className="bg-slate-500 p-1 text-stone-100 font-semibold font-serif mt-1" onChange={handleFormChange}>
                 {optionValues()}
             </select>
             <br />
-            Character Gender: <select name="gender" className='bg-slate-500 p-1 text-stone-100 font-semibold font-serif my-1' onChange={handleFormChange}>
-                <option value={"m"}>Male</option>
-                <option value={"f"}>Female</option>
-            </select>
-            <br />
             <button type="submit" className="transition duration-300 ease-in-out bg-slate-500 hover:bg-slate-600 active:bg-slate-800 px-2 py-1 rounded-full border-stone-400 border-2 hover:border-opacity-30 font-serif font-semibold text-stone-200 hover:text-stone-50">Submit</button>
+            <br />
+            <div className={`${message !== ""? "bg-slate-100 text-sm text-red-700 w-fit":""}`} >
+                {message}
+            </div>
         </form>
     )
 }

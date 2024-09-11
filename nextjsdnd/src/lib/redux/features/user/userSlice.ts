@@ -4,8 +4,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 
 const initialState:IUser = {
+    _id:"",
     email:"",
-    password:""
+    username:""
 }
 
 export const userSlice = createSlice({
@@ -13,8 +14,9 @@ export const userSlice = createSlice({
     initialState,
     reducers:{
         setUser: (state:IUser, action:PayloadAction<IUser>)=>{
-            state.email = action.payload.email,
-            state.password = action.payload.password
+            state._id = action.payload._id;
+            state.email = action.payload.email;
+            state.username = action.payload.username;
             return state;
         },
         removeUser: (state:IUser)=>{
